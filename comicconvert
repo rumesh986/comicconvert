@@ -1,0 +1,69 @@
+#!/bin/bash
+#This program is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+
+#You should have received a copy of the GNU General Public License
+#along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+if [ $# -eq 0 ]
+then
+	echo "Please state the cbr/cbz files you want to convert to pdf"
+else
+
+	for i in "$@"
+	do
+		file=$i
+		filetype=${i: -3}
+
+		echo $file
+		echo $filetype
+
+
+		if [[ "$filetype" == "cbr" ]]
+		then
+			filename=${file%.cbr}
+			rarfile="$filename.rar"
+			pdffile="$filename.pdf"
+
+			echo $filename
+			echo $rarfile
+
+			mkdir .cbr/
+			cp "$file" "$rarfile"
+
+			unrar e "$rarfile" .cbr/
+
+			convert .cbr/*.jpg -o "$pdffile"
+
+			rm "$rarfile"
+			rm -rf .cbr/
+		fi
+
+		if [[ "$filetype" == "cbz" ]]
+		then
+			filename=${file%.cbz}
+			zipfile="$filename.zip"
+			pdffile="$filename.pdf"
+
+			echo $filename
+			echo $zipfile
+
+			mkdir .cbz/
+			cp "$file" "$zipfile"
+
+			unzip -j "$zipfile" -d .cbz/
+
+			convert .cbz/*.jpg -o "$pdffile"
+
+			rm "$zipfile"
+			rm -rf .cbz/
+	fi
+done
