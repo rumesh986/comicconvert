@@ -23,18 +23,11 @@ else
 		file=$i
 		filetype=${i: -3}
 
-		echo $file
-		echo $filetype
-
-
 		if [[ "$filetype" == "cbr" ]]
 		then
 			filename=${file%.cbr}
 			rarfile="$filename.rar"
 			pdffile="$filename.pdf"
-
-			echo $filename
-			echo $rarfile
 
 			mkdir .cbr/
 			cp "$file" "$rarfile"
@@ -52,9 +45,6 @@ else
 			filename=${file%.cbz}
 			zipfile="$filename.zip"
 			pdffile="$filename.pdf"
-
-			echo $filename
-			echo $zipfile
 
 			mkdir .cbz/
 			cp "$file" "$zipfile"
