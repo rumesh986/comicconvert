@@ -55,5 +55,6 @@ else
 
 			rm "$zipfile"
 			rm -rf .cbz/
-	fi
-done
+		fi
+	done
+fi
