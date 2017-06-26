@@ -34,7 +34,7 @@ else
 
 			unrar e "$rarfile" .cbr/
 
-			convert .cbr/*.jpg -o "$pdffile"
+			convert .cbr/*.jpg  "$pdffile"
 
 			rm "$rarfile"
 			rm -rf .cbr/
@@ -51,7 +51,7 @@ else
 
 			unzip -j "$zipfile" -d .cbz/
 
-			convert .cbz/*.jpg -o "$pdffile"
+			convert .cbz/*.jpg "$pdffile"
 
 			rm "$zipfile"
 			rm -rf .cbz/
