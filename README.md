@@ -11,4 +11,4 @@ TIP: If you are using the nautilus file manager, place a copy of the script in `
 
 NOTE: This program requires  `imagemagick`. you can install it on ubuntu and bash on windows by running `sudo apt-get install imagemagick`.
 
-While converting large comics, you may get some errors associated with low RAM. This is a problem with `imagemagick`. If you have this problem, you can use `img2pdf` from https://github.com/josch/img2pdf instead. 
+While converting large comics, you may get some errors associated with low RAM. This is a problem with `imagemagick`. If you have this problem, you can use `img2pdf` from https://github.com/josch/img2pdf instead. img2pdf requires the "-o" option to specify the output file so add that into the code if you're using img2pdf
