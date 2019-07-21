@@ -34,7 +34,7 @@ else
 
 			unrar e "$rarfile" .cbr/
 
-			find .cbz/ -name "*.webp" -exec dwebp {} -o {}.jpg \;
+			find .cbr/ -name "*.webp" -exec dwebp {} -o {}.jpg \;
 			convert .cbr/*.jpg  "$pdffile"
 
 			rm "$rarfile"
