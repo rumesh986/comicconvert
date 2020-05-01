@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #This program is free software: you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation, either version 3 of the License, or
@@ -29,12 +29,16 @@ else
 			rarfile="$filename.rar"
 			pdffile="$filename.pdf"
 
-			mkdir .cbr/
+			mkdir -p .cbr/
 			cp "$file" "$rarfile"
 
 			unrar e "$rarfile" .cbr/
 
-			find .cbr/ -name "*.webp" -exec dwebp {} -o {}.jpg \;
+			# Normalization
+			find .cbr/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
+			find .cbr/ -iname "*.png" -exec convert {} {}.jpg \;
+			# Downcase
+			find .cbr/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
 			img2pdf -o "$pdffile" .cbr/*.jpg
 
 			rm "$rarfile"
@@ -47,13 +51,16 @@ else
 			zipfile="$filename.zip"
 			pdffile="$filename.pdf"
 
-			mkdir .cbz/
+			mkdir -p .cbz/
 			cp "$file" "$zipfile"
 
 			unzip -j "$zipfile" -d .cbz/
-
-			find .cbz/ -name "*.webp" -exec dwebp {} -o {}.jpg \;
-			img2pdf -o "$pdffile" .cbr/*.jpg
+			# Normalize
+			find .cbz/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
+			find .cbz/ -iname "*.png" -exec convert {} {}.jpg \;
+			# Downcase
+			find .cbz/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
+			img2pdf -o "$pdffile" .cbz/*.jpg
 
 			rm "$zipfile"
 			rm -rf .cbz/
