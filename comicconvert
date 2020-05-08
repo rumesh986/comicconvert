@@ -23,47 +23,38 @@ else
 		file=$i
 		filetype=${i: -3}
 
+		mkdir .comicconvert
+
 		if [[ "$filetype" == "cbr" ]]
 		then
 			filename=${file%.cbr}
 			rarfile="$filename.rar"
 			pdffile="$filename.pdf"
 
-			mkdir -p .cbr/
 			cp "$file" "$rarfile"
-
-			unrar e "$rarfile" .cbr/
-
-			# Normalization
-			find .cbr/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
-			find .cbr/ -iname "*.png" -exec convert {} {}.jpg \;
-			# Downcase
-			find .cbr/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
-			img2pdf -o "$pdffile" .cbr/*.jpg
-
+			unrar e "$rarfile" .comicconvert/
 			rm "$rarfile"
-			rm -rf .cbr/
-		fi
 
-		if [[ "$filetype" == "cbz" ]]
+		elif [[ "$filetype" == "cbz" ]]
 		then
+
 			filename=${file%.cbz}
 			zipfile="$filename.zip"
 			pdffile="$filename.pdf"
 
-			mkdir -p .cbz/
 			cp "$file" "$zipfile"
-
-			unzip -j "$zipfile" -d .cbz/
-			# Normalize
-			find .cbz/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
-			find .cbz/ -iname "*.png" -exec convert {} {}.jpg \;
-			# Downcase
-			find .cbz/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
-			img2pdf -o "$pdffile" .cbz/*.jpg
-
+			unzip -j "$zipfile" -d .comicconvert/
 			rm "$zipfile"
-			rm -rf .cbz/
-		fi
+		fi			
+		
+		echo $pdffile
+		# Normalize
+		find .comicconvert/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
+		find .comicconvert/ -iname "*.png" -exec convert {} {}.jpg \;
+		# Downcase
+		find .comicconvert/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
+		img2pdf -o "$pdffile" .comicconvert/*.jpg
+
+		rm -rf .comicconvert/
 	done
 fi
