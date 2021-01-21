@@ -23,7 +23,7 @@ else
 		file=$i
 		filetype=${i: -3}
 
-		mkdir .comicconvert
+		mkdir .comicconvert -p
 
 		if [[ "$filetype" == "cbr" ]]
 		then
