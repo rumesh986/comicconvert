@@ -51,6 +51,7 @@ else
 		# Normalize
 		find .comicconvert/ -iname "*.webp" -exec dwebp {} -o {}.jpg \;
 		find .comicconvert/ -iname "*.png" -exec convert {} {}.jpg \;
+		find .comicconvert/ -iname "*.jpeg" -exec convert {} {}.jpg \;
 		# Downcase
 		find .comicconvert/ -name '*.*' -exec sh -c 'a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/");[ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
 		img2pdf -o "$pdffile" .comicconvert/*.jpg
